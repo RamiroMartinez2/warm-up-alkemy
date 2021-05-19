@@ -5,7 +5,7 @@ export const ListPosts = (post) => {
 
   return (
     <>
-      <div className="container">
+      {/* <div className="container">
         <div className="posts-list row">
           <div className="card mt-4 col-md-6 bg-ligt">
             <div className="card-body">
@@ -21,7 +21,7 @@ export const ListPosts = (post) => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
     </>
   );
 };
