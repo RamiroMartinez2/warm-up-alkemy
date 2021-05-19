@@ -1,52 +1,59 @@
 import React from "react";
-import { withFormik, Field, ErrorMessage, Form } from "formik";
+import { Formik, Form, Field } from "formik";
 
-const Login = (props) => {
-  const { isSubmitting } = props;
+export const Login = () => {
+  function validateEmail(email) {
+    
+    let error;
+    if (!email) {
+      error = "Input Email cannot be empty";
+    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email)) {
+      error = "Invalid email address";
+    }
+
+    return error;
+  }
+
+  function validatePassword(password) {
+    console.log(password);
+    let error;
+    if (!password) {
+      error = "Input Password cannot be empty";
+    }
+    return error;
+  }
+
   return (
-    <Form>
-      <div className="row">
-        <label>Email</label>
-        <Field name="email" type="email" />
-        <ErrorMessage name="email">
-          {(message) => <div>{message}</div>}
-        </ErrorMessage>
-      </div>
-      <div className="row">
-        <label>Password</label>
-        <Field name="password" type="password" />
-        <ErrorMessage name="password">
-          {(message) => <div>{message}</div>}
-        </ErrorMessage>
-      </div>
+    <div>
+      <h1>Log in</h1>
+      <Formik
+        initialValues={{
+          email: "",
+          password: "",
+        }}
+        onSubmit={(values) => {
+          // same shape as initial values
+          console.log(values);
+        }}
+      >
+        {({ errors, touched }) => (
+          <Form>
+            <Field name="email" validate={validateEmail} />
+            {errors.email && touched.email && <div>{errors.email}</div>}
 
-      <button type="submit" disabled={isSubmitting}>
-        Submit
-      </button>
-    </Form>
+            <Field
+              type="password"
+              name="password"
+              validate={validatePassword}
+            />
+            {errors.password && touched.password && (
+              <div>{errors.password}</div>
+            )}
+
+            <button type="submit">Submit</button>
+          </Form>
+        )}
+      </Formik>
+    </div>
   );
 };
-
-export default withFormik({
-  mapPropsToValues(props) {
-    return {
-      email: "",
-      password: "",
-    };
-  },
-  async validate(values) {
-    const errors = {};
-    if (!values.password) {
-      errors.password = "Password is required";
-    }
-    if (!values.email) {
-      errors.email = "Email is required";
-    }
-
-    return errors;
-  },
-  handleSubmit(values, formikBag) {
-    console.log(values);
-    formikBag.setSubmitting(false);
-  },
-})(Login);
