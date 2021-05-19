@@ -1,27 +1,10 @@
 import React from "react";
 import { Formik, Form, Field } from "formik";
+import { generateToken } from "../../utils";
+import { useHistory } from "react-router-dom";
 
 export const Login = () => {
-  function validateEmail(email) {
-    
-    let error;
-    if (!email) {
-      error = "Input Email cannot be empty";
-    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email)) {
-      error = "Invalid email address";
-    }
-
-    return error;
-  }
-
-  function validatePassword(password) {
-    console.log(password);
-    let error;
-    if (!password) {
-      error = "Input Password cannot be empty";
-    }
-    return error;
-  }
+  const history = useHistory();
 
   return (
     <div>
@@ -31,21 +14,39 @@ export const Login = () => {
           email: "",
           password: "",
         }}
+        validate={(values) => {
+          const errors = {};
+          if (!values.email) {
+            errors.email = "Email required";
+          }
+
+          if (!values.password) {
+            errors.password = "Password required";
+          }
+
+          return errors;
+        }}
         onSubmit={(values) => {
-          // same shape as initial values
+          if (
+            values.email === "challenge@alkemy.org" &&
+            values.password === "react"
+          ) {
+            const token = generateToken();
+            localStorage.setItem("token", token);
+            history.push("/");
+          } else {
+            window.alert("Invalid user or password");
+          }
+
           console.log(values);
         }}
       >
         {({ errors, touched }) => (
           <Form>
-            <Field name="email" validate={validateEmail} />
+            <Field name="email" />
             {errors.email && touched.email && <div>{errors.email}</div>}
 
-            <Field
-              type="password"
-              name="password"
-              validate={validatePassword}
-            />
+            <Field type="password" name="password" />
             {errors.password && touched.password && (
               <div>{errors.password}</div>
             )}
@@ -57,3 +58,5 @@ export const Login = () => {
     </div>
   );
 };
+
+export default Login;
