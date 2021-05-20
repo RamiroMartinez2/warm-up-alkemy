@@ -1,52 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { ListPosts } from "../ListPosts/ListPosts";
 
-export const Home = () => {
-  const [data, setData] = useState([]);
-  const [posts, setPosts] = useState([]);
-  console.log(posts);
-
-  const url = "https://jsonplaceholder.typicode.com/posts/";
-
-  // Get Method - Read the posts
-
-  useEffect(() => {
-    fetch(url)
-      .then((res) => res.json())
-      .then((data) => setPosts(data));
-  }, []);
-
-  // Post Method - insert new post
-
-  
-  const addPost = (e) => {
-    e.preventDefault();
-    fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        title: data?.title,
-        body: data?.body,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => setPosts([data, ...posts]));
-  };
-
-  const onSubmit = (e) => {
-    addPost(e);
-  };
-
-  const handleInputChange = (event) => {
-    setData({
-      ...data,
-      [event.target.name]: event.target.value,
-    });
-  };
-
+export const Home = ({
+  addPost,
+  onSubmit,
+  handleInputChange,
+  posts,
+  handleEdit,
+  handleDelete,
+}) => {
   return (
     <>
       <div className="container">
@@ -86,8 +48,24 @@ export const Home = () => {
         <div className="row mt-3">
           <div className="col-md-12">
             {posts?.map((i) => {
-              const { id, title, body } = i || {};
-              return <ListPosts id={id} key={id} title={title} body={body} />;
+              const { id, title } = i || {};
+              return (
+                <div key={id} className="container">
+                  <div className="posts-list row">
+                    <div className="card mt-4 col-md-6 bg-ligt">
+                      <div className="card-body">
+                        <h5 className="card-title">{title}</h5>
+                        <Link>Detail</Link>
+                        <Link className="card-link" to={`/post/${id}`}>
+                        <button onClick={() => handleEdit(id)}>Edit</button>
+                        </Link>
+
+                        <button onClick={() => handleDelete(id)}>Delete</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              );
             })}
           </div>
         </div>
