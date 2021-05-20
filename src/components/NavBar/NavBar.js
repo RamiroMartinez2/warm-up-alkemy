@@ -20,19 +20,19 @@ const NavBar = () => {
 
   return (
     <header>
-      <nav >
-        <ul >
-          <Link to="/">
-            <li>home</li>
+      <nav className="mt-4">
+        <ul  className="d-flex justify-content-around list-unstyled " >
+          <Link className="text-decoration-none" to="/">
+            <li className="text-capitalize text-dark ">home</li>
           </Link>
-          <Link>
-            <li>edit form</li>
+          <Link className="text-decoration-none">
+            <li className="text-capitalize text-dark">edit form</li>
           </Link>
-          <Link  to="/login">
+          <Link className="text-decoration-none"  to="/login">
             {isLogin ? (
-              <li onClick={() => logOut()}>log out</li>
+              <li className="text-capitalize text-dark" onClick={() => logOut()}>log out</li>
             ) : (
-              <li onClick={() => logIn()}>login</li>
+              <li className="text-capitalize text-dark" onClick={() => logIn()}>login</li>
             )}
           </Link>
         </ul>
