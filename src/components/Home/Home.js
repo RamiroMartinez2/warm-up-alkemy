@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { ListPosts } from "../ListPosts/ListPosts";
 
 export const Home = () => {
@@ -18,16 +19,6 @@ export const Home = () => {
 
   // Post Method - insert new post
 
-  const onSubmit = (e) => {
-    e.preventDefault();
-  };
-  const handleInputChange = (event) => {
-    setData({
-      ...data,
-      [event.target.name]: event.target.value,
-    });
-  };
-
   const addPost = (e) => {
     e.preventDefault();
     fetch(url, {
@@ -41,12 +32,18 @@ export const Home = () => {
       }),
     })
       .then((res) => res.json())
-      .then((data) => 
-        setPosts({
-          ...posts,
-          data,
-        })
-      );
+      .then((data) => setPosts([data, ...posts]));
+  };
+
+  const onSubmit = (e) => {
+    addPost(e);
+  };
+
+  const handleInputChange = (event) => {
+    setData({
+      ...data,
+      [event.target.name]: event.target.value,
+    });
   };
 
   return (
@@ -85,11 +82,15 @@ export const Home = () => {
             </form>
           </div>
         </div>
+        <div className="row mt-3">
+          <div className="col-md-12">
+            {posts?.map((i) => {
+              const { id, title, body } = i || {};
+              return <ListPosts id={id} key={id} title={title} body={body} />;
+            })}
+          </div>
+        </div>
       </div>
-
-      {/* {posts?.map((post) => (
-        <ListPosts post={post} key={post.id} />
-      ))} */}
     </>
   );
 };
