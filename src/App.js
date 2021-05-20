@@ -5,6 +5,7 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 import { Home } from "./components/Home/Home";
 import EditPost from "./components/EditPost/EditPost";
 import DetailPost from "./components/DetailPost/DetailPost";
+import NavBar from "./components/NavBar/NavBar";
 
 function App() {
   const [data, setData] = useState([]);
@@ -88,6 +89,7 @@ function App() {
   return (
     <>
       <BrowserRouter>
+      <NavBar/>
         <Switch>
           <Route exact path="/login">
             <Login />

@@ -35,7 +35,7 @@ export const Login = () => {
             const token = generateToken();
             localStorage.setItem("token", token);
             history.push("/");
-
+            window.location.reload();
             fetch("https://jsonplaceholder.typicode.com/posts", {
               method: "POST",
               body: JSON.stringify({

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 export const Home = ({
   addPost,
@@ -9,6 +10,15 @@ export const Home = ({
   handleEdit,
   handleDelete,
 }) => {
+
+
+  const history = useHistory();
+  const token = localStorage.getItem("token");
+
+  useEffect(() => {
+    if (!token) history.push("/login");
+  }, [history, token]);
+  
   return (
     <>
       <div className="container">
