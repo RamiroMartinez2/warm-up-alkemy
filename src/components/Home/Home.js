@@ -55,12 +55,28 @@ export const Home = ({
                     <div className="card mt-4 col-md-6 bg-ligt">
                       <div className="card-body">
                         <h5 className="card-title">{title}</h5>
-                        <Link to={`/detailPost/${id}`}>Detail</Link>
-                        <Link className="card-link" to={`/post/${id}`}>
-                        <button onClick={() => handleEdit(id)}>Edit</button>
+                        <Link
+                          class="btn btn-link text-decoration-none"
+                          to={`/detailPost/${id}`}
+                        >
+                          Detail
                         </Link>
 
-                        <button onClick={() => handleDelete(id)}>Delete</button>
+                        <button
+                          class="btn btn-secondary ms-1"
+                          onClick={() => handleEdit(id)}
+                        >
+                          <Link className="card-link text-dark text-decoration-none ms-1" to={`/post/${id}`}>
+                            Edit{" "}
+                          </Link>
+                        </button>
+
+                        <button
+                          class="btn btn-danger ms-4"
+                          onClick={() => handleDelete(id)}
+                        >
+                          Delete
+                        </button>
                       </div>
                     </div>
                   </div>
