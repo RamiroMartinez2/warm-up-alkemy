@@ -55,7 +55,7 @@ export const Home = ({
                     <div className="card mt-4 col-md-6 bg-ligt">
                       <div className="card-body">
                         <h5 className="card-title">{title}</h5>
-                        <Link>Detail</Link>
+                        <Link to={`/detailPost/${id}`}>Detail</Link>
                         <Link className="card-link" to={`/post/${id}`}>
                         <button onClick={() => handleEdit(id)}>Edit</button>
                         </Link>

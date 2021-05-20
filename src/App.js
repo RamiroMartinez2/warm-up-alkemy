@@ -4,6 +4,7 @@ import Login from "./components/Login/Login";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import { Home } from "./components/Home/Home";
 import EditPost from "./components/EditPost/EditPost";
+import DetailPost from "./components/DetailPost/DetailPost";
 
 function App() {
   const [data, setData] = useState([]);
@@ -100,6 +101,12 @@ function App() {
               handleDelete={handleDelete}
               handleEdit={handleEdit}
             />
+          </Route>
+          <Route exact path="/detailPost/:id">
+           <DetailPost
+           posts={posts}
+           
+           />
           </Route>
           <Route exact path="/">
             <Home
