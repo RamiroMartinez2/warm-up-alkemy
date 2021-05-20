@@ -19,6 +19,7 @@ export const Home = () => {
 
   // Post Method - insert new post
 
+  
   const addPost = (e) => {
     e.preventDefault();
     fetch(url, {
