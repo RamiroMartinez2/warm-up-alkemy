@@ -14,7 +14,7 @@ function App() {
   }, []);
 
   const getPosts = async () => {
-    await fetch("https://jsonplaceholder.typicode.com/posts")
+    await fetch("https://jsonplaceholder.typicode.com/posts?_start=0&_limit=3")
       .then((response) => response.json())
       .then((data) => setPosts(data))
       .catch((error) => console.log(error));
