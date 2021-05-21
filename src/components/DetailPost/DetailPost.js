@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
-const DetailPost = ({posts}) => {
+const DetailPost = ({ posts, parentCallBack }) => {
   const [dataDetail, setDataDetail] = useState([]);
   console.log(dataDetail);
 
@@ -11,7 +11,10 @@ const DetailPost = ({posts}) => {
   const getPosts = () => {
     fetch(url)
       .then((res) => res.json())
-      .then((data) => setDataDetail(data));
+      .then((data) => {
+        
+        setDataDetail(data);
+      });
   };
   useEffect(() => {
     getPosts();
@@ -25,7 +28,7 @@ const DetailPost = ({posts}) => {
             <h5 className="card-title">{dataDetail.title}</h5>
             <h6>Content</h6>
             <p>{dataDetail.body}</p>
-            <Link to='/'>
+            <Link to="/">
               <button>Go back</button>
             </Link>
           </div>

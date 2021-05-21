@@ -25,9 +25,6 @@ const NavBar = () => {
           <Link className="text-decoration-none" to="/">
             <li className="text-capitalize text-dark ">home</li>
           </Link>
-          <Link className="text-decoration-none">
-            <li className="text-capitalize text-dark">edit form</li>
-          </Link>
           <Link className="text-decoration-none"  to="/login">
             {isLogin ? (
               <li className="text-capitalize text-dark" onClick={() => logOut()}>log out</li>

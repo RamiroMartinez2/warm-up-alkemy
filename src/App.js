@@ -3,122 +3,123 @@ import React, { useState, useEffect } from "react";
 import Login from "./components/Login/Login";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import { Home } from "./components/Home/Home";
-import EditPost from "./components/EditPost/EditPost";
 import DetailPost from "./components/DetailPost/DetailPost";
 import NavBar from "./components/NavBar/NavBar";
+import { AddPost } from "./components/AddPost/AddPost";
 
 function App() {
-  const [data, setData] = useState([]);
   const [posts, setPosts] = useState([]);
-
-  const url = "https://jsonplaceholder.typicode.com/posts/";
-
-  // Get Method - Read the posts
-
-  const getPosts = () => {
-    fetch(url)
-      .then((res) => res.json())
-      .then((data) => setPosts(data));
-  };
 
   useEffect(() => {
     getPosts();
   }, []);
 
-  // Post Method - insert new post
+  const getPosts = async () => {
+    await fetch("https://jsonplaceholder.typicode.com/posts")
+      .then((response) => response.json())
+      .then((data) => setPosts(data))
+      .catch((error) => console.log(error));
+  };
 
-  const addPost = (e) => {
-    e.preventDefault();
-    fetch(url, {
+  const addPost = async (title, body) => {
+    await fetch("https://jsonplaceholder.typicode.com/posts", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
       body: JSON.stringify({
-        title: data?.title,
-        body: data?.body,
+        title: title,
+        body: body,
       }),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
     })
-      .then((res) => res.json())
+      .then((response) => {
+        if (response.status !== 201) {
+          return;
+        } else {
+          return response.json();
+        }
+      })
       .then((data) => {
-        setPosts([data, ...posts]);
-      });
+        setPosts((posts) => [...posts, data]);
+      })
+      .catch((error) => console.log(error));
   };
 
-  const onSubmit = (e) => {
-    addPost(e);
+  const onEdit = async (id, title, body) => {
+    await fetch(`https://jsonplaceholder.typicode.com/posts/${id}`, {
+      method: "PUT",
+      body: JSON.stringify({
+        title: title,
+        body: body,
+      }),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+    })
+      .then((response) => {
+        if (response.status !== 200) {
+          return;
+        } else {
+          return response.json();
+        }
+      })
+      .then((data) => {
+        const updatedUsers = posts.map((post) => {
+          if (post.id === id) {
+            post.title = title;
+            post.body = body;
+          }
+
+          return post;
+        });
+
+        setPosts((posts) => updatedUsers);
+      })
+      .catch((error) => console.log(error));
   };
 
-  const handleInputChange = (event) => {
-    setData({
-      ...data,
-      [event.target.name]: event.target.value,
-    });
-  };
-
-  // Delete post
-
-  const handleDelete = (postId) => {
-    fetch(`${url}${postId}`, {
+  const onDelete = async (id) => {
+    await fetch(`https://jsonplaceholder.typicode.com/posts/${id}`, {
       method: "DELETE",
     })
-      .then((res) => res.json())
-      .then((data) => {
-        setPosts([data, ...posts]);
-      });
+      .then((response) => {
+        if (response.status !== 200) {
+          return;
+        } else {
+          setPosts(
+            posts.filter((post) => {
+              return post.id !== id;
+            })
+          );
+        }
+      })
+      .catch((error) => console.log(error));
   };
 
-  // Edit post
-
-  const handleEdit = (postId, title, body) => {
-    console.log({ url: `${url}${postId}`, title, body });
-
-    fetch(`${url}${postId}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        title,
-        body,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => setPosts([data, ...posts]));
-  };
   return (
     <>
       <BrowserRouter>
-      <NavBar/>
+        <NavBar />
         <Switch>
           <Route exact path="/login">
             <Login />
           </Route>
-          <Route exact path="/post/:id">
-            <EditPost
-              addPost={addPost}
-              onSubmit={onSubmit}
-              handleInputChange={handleInputChange}
-              posts={posts}
-              handleDelete={handleDelete}
-              handleEdit={handleEdit}
-            />
-          </Route>
           <Route exact path="/detailPost/:id">
-           <DetailPost
-           posts={posts}
-           
-           />
+            <DetailPost posts={posts} />
           </Route>
           <Route exact path="/">
-            <Home
-              addPost={addPost}
-              onSubmit={onSubmit}
-              handleInputChange={handleInputChange}
-              posts={posts}
-              handleDelete={handleDelete}
-              handleEdit={handleEdit}
-            />
+            <AddPost addPost={addPost} />
+            {posts.map((post) => (
+              <Home
+                id={post.id}
+                key={post.id}
+                title={post.title}
+                body={post.body}
+                onEdit={onEdit}
+                onDelete={onDelete}
+                addPost={addPost}
+              />
+            ))}
           </Route>
         </Switch>
       </BrowserRouter>

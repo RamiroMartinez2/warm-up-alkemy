@@ -39,7 +39,7 @@ export const Login = () => {
                 localStorage.setItem("token", token);
                 history.push("/");
                 window.location.reload();
-                fetch("https://jsonplaceholder.typicode.com/posts", {
+                fetch("https://challenge-react-alkemy.org", {
                   method: "POST",
                   body: JSON.stringify({
                     email: values.email,
