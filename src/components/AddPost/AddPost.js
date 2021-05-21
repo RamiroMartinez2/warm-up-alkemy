@@ -14,7 +14,7 @@ export const AddPost = ({ addPost }) => {
         <div className="col-md-6">
           <h3 className="mt-5">Add new post</h3>
           <form className="add-post-form" onSubmit={handleOnSubmit}>
-            <div className="form-group mt-5">
+            <div className="form-group mt-6">
               <label htmlFor="title">Title</label>
               <input
                 className="form-control"

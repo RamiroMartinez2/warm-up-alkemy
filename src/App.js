@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import Login from "./components/Login/Login";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import { Home } from "./components/Home/Home";
-import DetailPost from "./components/DetailPost/DetailPost";
 import NavBar from "./components/NavBar/NavBar";
 import { AddPost } from "./components/AddPost/AddPost";
 
@@ -103,9 +102,6 @@ function App() {
         <Switch>
           <Route exact path="/login">
             <Login />
-          </Route>
-          <Route exact path="/detailPost/:id">
-            <DetailPost posts={posts} />
           </Route>
           <Route exact path="/">
             <AddPost addPost={addPost} />
