@@ -63,7 +63,7 @@ function App() {
         }
       })
       .then((data) => {
-        const updatedUsers = posts.map((post) => {
+        const updatedPosts = posts.map((post) => {
           if (post.id === id) {
             post.title = title;
             post.body = body;
@@ -72,7 +72,7 @@ function App() {
           return post;
         });
 
-        setPosts((posts) => updatedUsers);
+        setPosts((posts) => updatedPosts);
       })
       .catch((error) => console.log(error));
   };
