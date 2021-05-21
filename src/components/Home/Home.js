@@ -36,12 +36,14 @@ export const Home = ({ title, body, id, onEdit, onDelete, addPost }) => {
                   placeholder="title"
                   name="title"
                   defaultValue={title}
+                  required
                 />
                 <textarea
                   className="form-control mt-4 mb-4"
                   placeholder="content"
                   name="body"
                   defaultValue={body}
+                  required
                 />
                 <button
                   className="btn btn-primary mr-3"
